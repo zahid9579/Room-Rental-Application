@@ -62,3 +62,62 @@ class CancelAPIView(APIView):
 
 
 #******** Room CRUD operation ENDS here ********************
+
+
+
+
+
+#******** Room Search and Filter Functionality STARTS here **********
+
+
+class FilterAPIView(APIView):
+    serializer_class = RoomSerializer
+
+    def get_queryset(self):
+        qs = Room.objects.all()
+
+        # Fetch query parameters from the request
+        price_min = self.request.GET.get('price_min')
+        price_max = self.request.GET.get('price_max')
+        location = self.request.GET.get('location')
+
+        # Filter by price_min (if provided) - Ensure price is converted to float
+        if price_min:
+            try:
+                price_min = float(price_min)
+                qs = qs.filter(price__gte=price_min)
+            except ValueError:
+                return Response({"error": "Invalid price format for 'price_min'"}, status=400)
+
+        # Filter by price_max (if provided) - Ensure price is converted to float
+        if price_max:
+            try:
+                price_max = float(price_max)
+                qs = qs.filter(price__lte=price_max)
+            except ValueError:
+                return Response({"error": "Invalid price format for 'price_max'"}, status=400)
+
+        # Filter by location (if provided) using 'icontains' for case-insensitive matching
+        if location:
+            qs = qs.filter(location__icontains=location)
+
+        return qs
+
+    def get(self, request, *args, **kwargs):
+        # Get filtered rooms based on query parameters
+        rooms = self.get_queryset()
+
+        # Serialize the filtered queryset
+        serializer = self.serializer_class(rooms, many=True)
+        return Response(serializer.data)
+
+        
+
+#******** Room Search and Filter Functionality ENDS here **********
+
+
+
+#********** Room Booking STARTS here *****************
+# class BookingAPIView(APIView):
+#     def post(self, request, id):
+        
