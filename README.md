@@ -2,7 +2,7 @@
   Room Rental Application
 ---------------------------
 
-This is a Room Rental Application built using Django, Django REST Framework, OAuth2 Authentication, MySQL, HTML, CSS, and JavaScript. The application allows users to easily browse and book rooms, providing a seamless and secure experience.
+This is a Room Rental Application built using Django, Django REST Framework, JWT(JSON WEB TOKEN) Authentication, MySQL, HTML, CSS, and JavaScript. The application allows users to easily browse and book rooms, providing a seamless and secure experience.
 
 
 Features
