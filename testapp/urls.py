@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, CancelAPIView, FilterAPIView
+from .views import ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, CancelAPIView, FilterAPIView, BookingAPIView, AllBookingAPIView
 
 urlpatterns = [
     path('rooms/', ListAPIView.as_view(), name='list_rooms'),
@@ -10,6 +10,8 @@ urlpatterns = [
     path('rooms/<int:id>/update/', UpdateAPIView.as_view(), name='update_room'),
     path('rooms/<int:id>/delete/', CancelAPIView.as_view(), name='delete_room'),
     path('search/', FilterAPIView.as_view(), name='Search_filter'),
+    path('rooms/<int:id>/booking/', BookingAPIView.as_view(), name='booking'),
+    path('allBookings/',AllBookingAPIView.as_view(), name="getAllBookings")
     
 ]
 

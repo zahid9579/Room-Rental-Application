@@ -1,8 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Room
-from .serializers.room_serializers import RoomSerializer
+from .models import Room, Booking
+from .serializers.room_serializers import RoomSerializer, BookingSerializer
 
 
 #******** Room CRUD operation STARTS here ********************
@@ -60,15 +60,10 @@ class CancelAPIView(APIView):
         except Room.DoesNotExist:
             return Response({"error": "Room not found"}, status=status.HTTP_404_NOT_FOUND)
 
-
 #******** Room CRUD operation ENDS here ********************
 
 
-
-
-
 #******** Room Search and Filter Functionality STARTS here **********
-
 
 class FilterAPIView(APIView):
     serializer_class = RoomSerializer
@@ -111,13 +106,57 @@ class FilterAPIView(APIView):
         serializer = self.serializer_class(rooms, many=True)
         return Response(serializer.data)
 
-        
-
 #******** Room Search and Filter Functionality ENDS here **********
 
 
 
 #********** Room Booking STARTS here *****************
-# class BookingAPIView(APIView):
-#     def post(self, request, id):
+
+# To Book a room
+class BookingAPIView(APIView):
+    def post(self, request, id):
+        try:
+            room = Room.objects.get(pk=id) 
+            data = {
+                "user": request.user.id,  
+                "room": room.id,
+            }
+
+            serializer = BookingSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except Room.DoesNotExist:
+            return Response({"error": "Room not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    
+# To get all the booked rooms
+class AllBookingAPIView(APIView):
+    def get(self, request):
+        bookings = Booking.objects.filter(user=request.user)  # Filter bookings by the logged-in user
+        serializer = BookingSerializer(bookings, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+#08254f color description : Very dark blue. FRONT END BACKGRound Color
+
