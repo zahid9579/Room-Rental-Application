@@ -3,10 +3,14 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Room, Booking
 from .serializers.room_serializers import RoomSerializer, BookingSerializer
+from .serializers.user_serializers import UserRegisterationSerializer, UserLoginSerializer, LogoutSerializer, UserProfileSerializer                                                      
 
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated, AllowAny   
+from django.contrib.auth import authenticate                               
 
 #******** Room CRUD operation STARTS here ********************
-
+                                                                                                                                                                                                                                                                                                                         
 # For listing all the rooms
 class ListAPIView(APIView):
     def get(self, request):
@@ -26,7 +30,7 @@ class CreateAPIView(APIView):
 
 
 # To retrieve a single Room by ID
-class RetrieveAPIView(APIView):
+class RetrieveAPIView(APIView):                 
     def get(self, request, id):
         try:
             room = Room.objects.get(pk=id)
@@ -110,15 +114,23 @@ class FilterAPIView(APIView):
 
 
 
-#********** Room Booking STARTS here *****************
+#****************************
+# Room Booking STARTS here 
+# ***************************
 
 # To Book a room
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 class BookingAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def post(self, request, id):
         try:
-            room = Room.objects.get(pk=id) 
+            room = Room.objects.get(pk=id)
             data = {
-                "user": request.user.id,  
+                "user": request.user.id,  # Get the logged-in user's ID
                 "room": room.id,
             }
 
@@ -130,7 +142,7 @@ class BookingAPIView(APIView):
 
         except Room.DoesNotExist:
             return Response({"error": "Room not found"}, status=status.HTTP_404_NOT_FOUND)
-    
+           
     
 # To get all the booked rooms
 class AllBookingAPIView(APIView):
@@ -141,22 +153,70 @@ class AllBookingAPIView(APIView):
 
 
 
+# ******************************
+# USER Authentication Starts here
+# *******************************
+
+# To generate token
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }
+    
+# User Registeration view
+class UserRegisterationView(APIView):
+    permission_classes = [AllowAny]
+    def post(self, request):
+        serializer = UserRegisterationSerializer(data = request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            token = get_tokens_for_user(user)
+            return Response({'token': token, 'msg': "Registeration successfully"}, status=status.HTTP_201_CREATED)
+        return Response (serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         
+# User Login view 
+class UserLoginView(APIView):
+    permission_classes = [AllowAny]
+    
+    def post(self, request, format=None):
+        serializer = UserLoginSerializer(data = request.data)
+        if serializer.is_valid(raise_exception=True):
+            email = serializer.data.get('email')
+            password = serializer.data.get('password')
+            user = authenticate(email = email, password = password)
+            if user is not None:
+                token = get_tokens_for_user(user)
+                return Response({'token': token, "msg": "Login Successfully"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"errors": {'non_field_errors': ['Email or passowrd is not valid']}}, status=status.HTTP_401_UNAUTHORIZED)
+            
+        
+        
+# User Logout view
+class UserLogoutView(APIView):
+    serializer_class = LogoutSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        serializer = self.serializer_class(data = request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"msg": "Logout Successfully"}, status=status.HTTP_200_OK)
+    
+
+# User Profile View
+class UserProfileView(APIView):
+    def get(self, request, format=None):
+        serializer = UserProfileSerializer(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+          
         
 #08254f color description : Very dark blue. FRONT END BACKGRound Color
 
