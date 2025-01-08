@@ -7,7 +7,8 @@ from .serializers.user_serializers import UserRegisterationSerializer, UserLogin
 
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated, AllowAny   
-from django.contrib.auth import authenticate                               
+from django.contrib.auth import authenticate 
+from django.shortcuts import render                              
 
 #******** Room CRUD operation STARTS here ********************
                                                                                                                                                                                                                                                                                                                          
@@ -220,3 +221,15 @@ class UserProfileView(APIView):
         
 #08254f color description : Very dark blue. FRONT END BACKGRound Color
 
+
+# Django templates displaying starts form here
+def homepage(request):
+    return render(request, 'testapp/homepage.html')
+
+
+
+# Views to Fetch the data
+def room_listing(request):
+    # Fetch all rooms from the database
+    rooms = Room.objects.all()
+    return render(request, 'testapp/room_listing.html', {'rooms': rooms})

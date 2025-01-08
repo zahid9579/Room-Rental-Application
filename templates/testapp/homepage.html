@@ -1,0 +1,58 @@
+{% extends 'testapp/base.html' %}
+{% load static %}
+{% block title %}Home - Room Rental{% endblock %}
+
+{% block content %}
+<!-- Nav bar starts here -->
+
+<!-- Main home page starts here -->
+<main>
+    <div class="h-left">
+        <h1>Let's find the best<br> home that suits you</h1>
+        <p>We have made your rental room search smooth and stress-free.</p>
+        <a href="{% url 'room_listing' %}" class="cta-button">Get Started</a>
+    </div>
+    <div class="h-right">
+        <img src="{% static 'images/fev_images.jpeg' %}" alt="home-image">
+    </div>
+</main>
+
+<!-- About section starts -->
+<section>
+    <div class="about">
+        <h3>About us</h3>
+        <p>Welcome to RoomRental, where finding your ideal living space has never been easier! We offer a wide range of rental options that cater to all your needs—whether you're looking for a cozy studio or a spacious apartment. Our platform connects you with trusted landlords, ensuring a smooth and secure rental process. We prioritize your comfort and convenience, offering detailed listings with transparent pricing, high-quality images, and easy booking options. Say goodbye to stressful house hunting and let us help you find your perfect home today!</p>
+
+    </div>
+</section>
+
+
+<!--  Footer section -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-section">
+            <h4>About Us</h4>
+            <p>We provide the best room rental services to help you find your perfect space.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Contact Us</h4>
+            <p>Email: support@roomrental.com</p>
+            <p>Phone: +91 9876598765</p>
+        </div>
+        <div class="footer-section">
+            <h4>Follow Us</h4>
+            <ul class="social-media">
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Twitter</a></li>
+                <li><a href="#">Instagram</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2023 Room Rental. All rights reserved.</p>
+    </div>
+</footer>
+
+
+
+{% endblock content %}
