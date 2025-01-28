@@ -50,6 +50,7 @@ ul li:not(:last-child) a:hover{
     border: none;
     background:#026786;
     cursor: pointer;
+    border-radius: 8px;
 }
 
 .btn:hover {
@@ -315,12 +316,6 @@ section{
 
 /*  Room listing css starts from here */
 /* General Page Styling */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
-}
 
 /* Search Section */
 .search {
@@ -330,21 +325,30 @@ body {
 
 .search input[type="text"] {
     width: 50%;
-    padding: 10px;
+    max-width: 600px;
+    padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 16px;
+    color: #000; /* Text color set to black */
+    transition: border-color 0.3s ease;
+}
+
+.search input[type="text"]:focus {
+    border-color: #4CAF50;
+    outline: none;
 }
 
 .search button {
-    padding: 10px 20px;
+    padding: 12px 25px;
     background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
     margin-left: 10px;
+    transition: background-color 0.3s ease;
 }
 
 .search button:hover {
@@ -359,13 +363,14 @@ body {
     margin: 20px auto;
     gap: 20px;
     padding: 10px;
+
 }
 
 .room {
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     max-width: 300px;
     text-align: center;
@@ -374,26 +379,28 @@ body {
 
 .room:hover {
     transform: scale(1.05);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 .room img {
     max-width: 100%;
     height: auto;
-    border-radius: 4px;
-    margin-bottom: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
 }
 
 .room h1 {
-    font-size: 20px;
+    font-size: 22px;
     margin-bottom: 10px;
     color: #333;
+    font-weight: bold;
 }
 
 .room p {
     font-size: 14px;
-    color: #666;
-    margin: 5px 0;
+    color: #363232;
+    margin: 8px 0;
+    line-height: 1.5;
 }
 
 /* Empty State Styling */
@@ -402,4 +409,247 @@ body {
     color: #999;
     text-align: center;
     width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .search input[type="text"] {
+        width: 80%;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .search button {
+        padding: 10px 20px;
+        font-size: 14px;
+        margin: 10px auto;
+    }
+
+    .room {
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    .room h1 {
+        font-size: 18px;
+    }
+
+    .room p {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .search input[type="text"] {
+        width: 90%;
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .search button {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+
+    .room {
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .room h1 {
+        font-size: 16px;
+    }
+
+    .room p {
+        font-size: 12px;
+    }
+}
+
+
+
+/* Room Details styling starts here */
+.room_details {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: left; /* Ensure all text aligns to the left */
+}
+
+.d_room {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align all child elements to the left */
+}
+
+.d_room img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.d_room h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 10px 0; /* Ensure no extra left margin */
+}
+
+.d_room p {
+    font-size: 18px;
+    margin: 10px 0; /* Consistent vertical spacing */
+    color: #555;
+    text-align: left; /* Align text to the left */
+    line-height: 1.5; /* Improve readability */
+    width: 100%; /* Ensure paragraphs span the full container width */
+}
+
+
+.auth{
+    color:black;
+}
+.auth a{
+    color:black;
+}
+
+
+
+/* Authentication styling  */
+
+
+
+/* Common button styles */
+button {
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Style for "BOOK NOW" button */
+.bk-btn {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.bk-btn:hover {
+    background-color: #45a049; /* Darker green */
+    transform: scale(1.05);
+}
+
+/* Style for "CANCEL" button */
+.c-btn {
+    background-color: #f44336; /* Red */
+    color: white;
+}
+
+.c-btn:hover {
+    background-color: #e53935; /* Darker red */
+    transform: scale(1.05);
+}
+
+/* Disabled button styles */
+button:disabled {
+    background-color: #ccc; /* Gray */
+    color: #666;
+    cursor: not-allowed;
+}
+
+
+
+/*  MESSAGE Display style */
+.messages {
+    margin: 20px 0;
+}
+
+.alert {
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .d_room h1 {
+        font-size: 24px;
+    }
+
+    .d_room p {
+        font-size: 16px;
+    }
+}
+
+
+
+
+
+
+/*  Styling for Registeration< Login or Authentication */
+
+.form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+
+.form-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color:#000;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color:#000;
+}
+
+
+
+.register {
+    margin: 10px auto;
+    padding: 10px 20px;
+    color: #000;
+}
+.register a{
+    color: #0056b3;
+}
+
+
+.btn:hover {
+    background: #0056b3;
 }

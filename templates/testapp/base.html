@@ -14,30 +14,82 @@
 
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">
-                <h2>Room_Rental</h2>
-            </div>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="{% url 'room_listing' %}">Rooms</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#" class="btn">Login</a></li>
-            </ul>
-            <div class="hamburger">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-    
-        </nav>
-    </header>
+   <!-- Navbar starts here -->
+<!-- Navbar starts here -->
+<!-- Navbar with dynamic login/logout -->
+<header>
+    <nav>
+        <div class="logo">
+            <h2>Room_Rental</h2>
+        </div>
+        <ul>
+            <li><a href="{% url 'homepage' %}">Home</a></li>
+            <li><a href="{% url 'room_listing' %}">Rooms</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact Us</a></li>
 
+            <!-- Conditional Login/Logout Button -->
+            {% if request.session.access_token %}
+                <!-- Logout form -->
+                <li>
+                    <form method="POST" action="{% url 'logout user' %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Logout</button>
+                    </form>
+                </li>
+            {% else %}
+                <!-- Login button -->
+                <li><a href="{% url 'login user' %}" class="btn">Login</a></li>
+            {% endif %}
+        </ul>
+        <div class="hamburger">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </nav>
+</header>
+
+
+
+    {% if messages %}
+<div class="messages">
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<script>
+    // Wait for the DOM to fully load
+    document.addEventListener("DOMContentLoaded", () => {
+      // Select all messages
+      const messages = document.querySelectorAll(".messages .alert");
+
+      // Loop through each message
+      messages.forEach((message) => {
+        // Set a timeout to remove the message after 3 seconds
+        setTimeout(() => {
+          message.style.transition = "opacity 0.5s ease"; // Smooth fade-out
+          message.style.opacity = "0"; // Set opacity to 0 to fade out
+
+          // Remove the element from the DOM after the fade-out
+          setTimeout(() => {
+            message.remove();
+          }, 500); // Wait for the fade-out effect to complete
+        }, 3000); // 3 seconds delay
+      });
+    });
+  </script>
+
+
+
+
+   
 
     {% block content %}
     <!-- Child templates will override this block -->
-     
-   
+
     {% endblock content %}
 </body>
 </html>

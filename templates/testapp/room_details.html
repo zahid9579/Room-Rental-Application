@@ -1,0 +1,38 @@
+{% extends 'testapp/base.html' %}
+
+{% load static %}
+{% block title %}Room Listing - Room Rental{% endblock %}
+
+{% block content %}
+<section>
+    <div class="room_details">
+        <div class="d_room">
+            <img src="{{ room.image.url }}" alt="{{ room.title }}" />
+            <h1>{{ room.title }}</h1>
+            <p>Price: {{ room.price }}</p>
+            <p>Location: {{ room.location }}</p>
+            <p>Description: {{ room.description }}</p> 
+        </div>
+
+        {% if user.is_authenticated %}
+            {% if user_booking %}
+                <!-- Show Cancel button if booking exists -->
+                <form method="POST" action="{% url 'cancel_booking' user_booking.id %}">
+                    {% csrf_token %}
+                    <button class="c-btn" type="submit">CANCEL</button>
+                </form>
+            {% else %}
+                <!-- Show Book Now button if no booking -->
+                <form method="POST" action="{% url 'room_booking' room.id %}">
+                    {% csrf_token %}
+                    <button class="bk-btn" type="submit">BOOK NOW</button>
+                </form>
+            {% endif %}
+        {% else %}
+            <p>Please <a href="{% url 'login user' %}">log in</a> to book this room.</p>
+        {% endif %}
+    </div>
+</section>
+
+
+{% endblock content %}

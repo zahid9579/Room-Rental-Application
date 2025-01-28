@@ -5,6 +5,7 @@
 
 {% block content %}
 
+<!-- Search fields -->
 <section>
     <div class="search">
         <form method="get" action="{% url 'room_listing' %}">
@@ -18,7 +19,9 @@
     <div class="room_listing">
         {% for room in rooms %}
         <div class="room">
-            <img src="{{ room.image.url }}" alt="{{ room.title }}" />
+            <a href="{% url 'room_details' room.id %}">
+                <img src="{{ room.image.url }}" alt="{{ room.title }}" />
+            </a>
             <h1>{{ room.title }}</h1>
             <p>Price: {{ room.price }}</p>
             <p>Location: {{ room.location }}</p>
